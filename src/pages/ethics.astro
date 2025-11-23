@@ -1,0 +1,122 @@
+---
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Ethics, Risks, and Future Paths for Creative AI";
+const description =
+  "Looking at the ethical concerns around AI in art and creativity, and possible ways to use it responsibly.";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="bg-orb"></div>
+    <Header />
+    <main>
+      <section>
+        <h1>{title}</h1>
+        <p class="lead">
+          AI supports creativity, but it also raises serious problems. As generative systems spread
+          into art, design, writing, and music, they raise questions about authorship, bias, job
+          security, and the long-term health of culture.
+        </p>
+      </section>
+
+      <section>
+        <h2>Challenges in Ethics</h2>
+
+        <h3>1. Genuineness and Worth</h3>
+        <p>
+          If a picture or a song appears in seconds, does human effort lose value? Many artists fear
+          that speed will replace skill and feeling. Even when AI output looks polished, there is a
+          worry that it will <strong>lower the perceived value</strong> of human creativity and make
+          years of practice seem less important. Some researchers describe this as
+          <span class="tech-term"> creative displacement anxiety</span>.
+        </p>
+
+        <h3>2. AI System Bias</h3>
+        <p>
+          Models learn from data taken from the real world, which means they also absorb
+          <strong>real-world stereotypes</strong>. Generated pictures often show cultural bias,
+          repeat the same items, and over-represent certain races or body types while pushing others
+          out of view. Without regular checks, AI can quietly spread a narrow view of who and what
+          “belongs” in art.
+        </p>
+
+        <h3>3. Visual Uniformity</h3>
+        <p>
+          Over time AI images start to look alike. The same styles, lighting setups, and color
+          palettes keep coming back. Long-term studies show that while content variety can increase,
+          <strong>visual originality tends to drop</strong>. If everyone uses the same models and
+          prompt patterns, culture slowly turns more uniform.
+        </p>
+
+        <h3>4. Ownership and Copyright</h3>
+        <p>
+          Who owns AI art? The person who wrote the prompt? The company that trained the model? The
+          original artists whose work was scraped into the training data? Many systems were trained
+          on existing artworks <strong>without clear consent</strong>, which has led to court cases
+          and arguments about copyright, fair use, and creative ownership.
+        </p>
+      </section>
+
+      <section>
+        <h2>Potential Future Solutions</h2>
+        <p>
+          Researchers, artists, and policymakers have suggested several steps for more responsible
+          use of creative AI:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Treat AI as a partner, not a replacement:</strong> Keep humans in charge of
+            direction, taste, and meaning, instead of handing full control to the model.
+          </li>
+          <li>
+            <strong>Stronger copyright rules:</strong> Update law and platform policies so using
+            creative work for training without consent is properly addressed, and original authors
+            stay protected.
+          </li>
+          <li>
+            <strong>Bias checks:</strong> Regularly test models for demographic and cultural bias,
+            then adjust training data or outputs when patterns show up.
+          </li>
+          <li>
+            <strong>Fair compensation:</strong> Build systems where artists can opt in, opt out, or
+            get paid when their work is used to train or inspire AI.
+          </li>
+          <li>
+            <strong>Honest communication:</strong> Clearly label AI-generated content so people know
+            what they are seeing or hearing, and teach users where AI fails and where it still needs
+            improvement.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>A Human-Centered Future</h2>
+        <p>
+          The best path is <strong>human plus machine</strong>, not human versus machine. AI should
+          help people create, explore, and express themselves in new ways instead of pushing human
+          artists out of the picture. That means keeping human creativity at the center of the
+          workflow and using AI as a powerful assistant.
+        </p>
+
+        <div class="final-note">
+          <p>
+            If society can align laws, platforms, and norms with that idea, AI could help more
+            people participate in creative culture without erasing what makes human art unique:
+            <strong>emotion</strong>, <strong>intention</strong>, and
+            <strong>lived experience</strong>.
+          </p>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

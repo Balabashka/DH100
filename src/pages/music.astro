@@ -1,0 +1,401 @@
+---
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "AI in Music and Audio";
+const description =
+  "Exploring how AI is used to generate music and sound, and how listeners respond to it.";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="bg-orb"></div>
+    <Header />
+
+    <main>
+      <!-- ===========================
+           INTRO
+      ============================ -->
+      <section>
+        <h1>{title}</h1>
+
+        <p class="lead">
+          Can AI write music? AI does not stop at pictures — it writes lyrics, scores backing
+          tracks, and even copies the voice of a star. The software studies thousands of songs,
+          learns the patterns, and generates new files that sound “right,” without directly copying
+          any one track.
+        </p>
+
+        <p>Common uses today include:</p>
+
+        <ul>
+          <li>Fast <strong>demo tracks</strong> for creators</li>
+          <li><strong>Royalty-free background music</strong> for games or short videos</li>
+          <li>
+            A <strong>starting point</strong> for people who do not play an instrument or know
+            music theory
+          </li>
+        </ul>
+
+        <p>
+          For many people, these tools open the door to making music that would have been
+          impossible to create alone.
+        </p>
+      </section>
+
+      <!-- ===========================
+           RESEARCH SECTION
+      ============================ -->
+      <section>
+        <h2>What Research Says</h2>
+
+        <div class="two-column">
+          <div class="column">
+            <h3>The Good</h3>
+            <p>
+              Listeners often find AI-generated music <strong>pleasant</strong> or even
+              <strong>enjoyable</strong>, especially as background audio. The rhythm, harmony,
+              and structure usually sound correct, and the production quality can be surprisingly high.
+            </p>
+          </div>
+
+          <div class="column">
+            <h3>The Limits</h3>
+            <p>
+              The same pattern seen with AI images repeats here. Once people learn that code created
+              the track, they tilt back toward human work. They describe many AI songs as
+              <strong>flat</strong>, <strong>hollow</strong>, or <strong>missing soul</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <span class="callout-icon">🎵</span>
+          <p>
+            Small details — loops that drag on too long, chords that drift strangely, or a lack of
+            emotional build — often reveal that no human intention shaped the piece.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===========================
+           LISTENING QUIZ
+      ============================ -->
+      <section id="audio-quiz">
+        <h2>AI or Human? Listening Quiz</h2>
+
+        <p>
+          Just like with images, it is not always obvious whether a piece was made by a person or
+          by software. This mini quiz lets you test that directly using short audio clips.
+        </p>
+
+        <p>
+          You will hear up to <strong>5 clips</strong>, a mix of AI-generated and human-composed
+          music.
+        </p>
+
+        <ul>
+          <li>Press <strong>Play clip</strong> to listen.</li>
+          <li>Choose whether you think it is <strong>AI</strong> or <strong>Human</strong>.</li>
+          <li>Your score and progress will update automatically.</li>
+        </ul>
+
+        <div class="audio-quiz">
+          <button id="play-btn" class="quiz-main-btn">▶ Play clip</button>
+
+          <audio id="quiz-audio" preload="auto"></audio>
+
+          <div class="audio-buttons">
+            <button id="btn-ai" class="quiz-btn">AI</button>
+            <button id="btn-human" class="quiz-btn">Human</button>
+          </div>
+
+          <p id="feedback" class="quiz-feedback"></p>
+
+          <p class="quiz-stats">
+            <span id="score">0 / 0</span>
+            <span class="dot-separator">·</span>
+            <span id="progress">0 / 5</span>
+          </p>
+
+          <button id="reset-btn" class="reset-btn" hidden>Reset quiz</button>
+        </div>
+
+        <div class="highlight">
+          The interesting part is not just whether you guess correctly, but how your reaction
+          changes <strong>after</strong> you know if it was AI or human.
+        </div>
+      </section>
+
+      <!-- ===========================
+           COLLABORATION SECTION
+      ============================ -->
+      <section>
+        <h2>Collaboration, Not Automation</h2>
+
+        <p>
+          The strongest use of AI in music is as a <strong>collaborator</strong> rather than a
+          ghost composer. Musicians can use AI to generate rough ideas, harmonies, or textures, and
+          then edit, arrange, and reshape that material using human taste and emotion.
+        </p>
+
+        <div class="final-note">
+          <p>
+            This keeps creativity centered on <strong>human decisions</strong> while still using
+            AI’s speed and pattern recognition. The challenge for the future is balancing that
+            partnership in a way that gives proper credit to human work.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <!-- ===========================
+         QUIZ LOGIC (CLIENT SIDE)
+         =========================== -->
+    <script>
+      // @ts-nocheck
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Update these paths to match your actual files in /public/audio/...
+        const clips = [
+          { src: "/audio/ai/ai1.mp3", isAI: true },
+          { src: "/audio/ai/ai2.mp3", isAI: true },
+          { src: "/audio/ai/ai3.mp3", isAI: true },
+          { src: "/audio/ai/ai4.mp3", isAI: true },
+          { src: "/audio/human/human1.mp3", isAI: false },
+          { src: "/audio/human/human2.mp3", isAI: false },
+          { src: "/audio/human/human3.mp3", isAI: false },
+          { src: "/audio/human/human4.mp3", isAI: false }
+        ];
+
+        const totalToShow = Math.min(5, clips.length);
+
+        let currentIndex = null;
+        let seen = new Set();
+        let correct = 0;
+        let total = 0;
+
+        const audioEl = document.getElementById("quiz-audio");
+        const playBtn = document.getElementById("play-btn");
+        const feedbackEl = document.getElementById("feedback");
+        const scoreEl = document.getElementById("score");
+        const progressEl = document.getElementById("progress");
+        const btnAI = document.getElementById("btn-ai");
+        const btnHuman = document.getElementById("btn-human");
+        const resetBtn = document.getElementById("reset-btn");
+
+        if (
+          !audioEl ||
+          !playBtn ||
+          !feedbackEl ||
+          !scoreEl ||
+          !progressEl ||
+          !btnAI ||
+          !btnHuman ||
+          !resetBtn
+        ) {
+          return;
+        }
+
+        function disableChoiceButtons() {
+          btnAI.disabled = true;
+          btnHuman.disabled = true;
+        }
+
+        function enableChoiceButtons() {
+          btnAI.disabled = false;
+          btnHuman.disabled = false;
+        }
+
+        function pickNextClip() {
+          if (seen.size >= totalToShow) {
+            feedbackEl.textContent = "You’ve listened to all clips for this quiz.";
+            feedbackEl.style.color = "#e5e7eb";
+            disableChoiceButtons();
+            resetBtn.hidden = false;
+            progressEl.textContent = `${totalToShow} / ${totalToShow}`;
+            return;
+          }
+
+          let idx;
+          // Don’t repeat clips within one run (up to totalToShow)
+          do {
+            idx = Math.floor(Math.random() * clips.length);
+          } while (seen.has(idx) && seen.size < clips.length);
+
+          seen.add(idx);
+          currentIndex = idx;
+
+          audioEl.src = clips[idx].src;
+          audioEl.currentTime = 0;
+
+          feedbackEl.textContent = "Listen carefully, then guess: AI or Human?";
+          feedbackEl.style.color = "#cbd5f5";
+          progressEl.textContent = `${seen.size} / ${totalToShow}`;
+
+          enableChoiceButtons();
+        }
+
+        function makeGuess(choiceIsAI) {
+          if (currentIndex === null) return;
+
+          const actualIsAI = clips[currentIndex].isAI;
+          total++;
+
+          if (actualIsAI === choiceIsAI) {
+            correct++;
+            feedbackEl.textContent = actualIsAI
+              ? "Correct — this track was generated by AI."
+              : "Correct — this track was created by a human.";
+            feedbackEl.style.color = "#22c55e";
+          } else {
+            feedbackEl.textContent = actualIsAI
+              ? "Not quite — this one was AI-generated."
+              : "Not quite — this one was human-composed.";
+            feedbackEl.style.color = "#f97316";
+          }
+
+          scoreEl.textContent = `${correct} / ${total}`;
+          disableChoiceButtons();
+
+          setTimeout(pickNextClip, 900);
+        }
+
+        playBtn.addEventListener("click", () => {
+          if (!audioEl.src) {
+            pickNextClip();
+          }
+          audioEl
+            .play()
+            .catch(() => {
+              // ignore autoplay / user gesture errors
+            });
+        });
+
+        btnAI.addEventListener("click", () => makeGuess(true));
+        btnHuman.addEventListener("click", () => makeGuess(false));
+
+        resetBtn.addEventListener("click", () => {
+          seen.clear();
+          correct = 0;
+          total = 0;
+          currentIndex = null;
+          scoreEl.textContent = "0 / 0";
+          progressEl.textContent = `0 / ${totalToShow}`;
+          feedbackEl.textContent = "";
+          feedbackEl.style.color = "#cbd5f5";
+          resetBtn.hidden = true;
+          audioEl.pause();
+          audioEl.currentTime = 0;
+          pickNextClip();
+        });
+
+        // Initial state
+        progressEl.textContent = `0 / ${totalToShow}`;
+        disableChoiceButtons();
+      });
+    </script>
+
+    <style>
+      /* Basic styling just for this page’s quiz */
+      #audio-quiz {
+        margin-top: 2.5rem;
+      }
+
+      .audio-quiz {
+        margin-top: 1.5rem;
+        text-align: center;
+      }
+
+      .quiz-main-btn {
+        padding: 0.7rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
+      }
+
+      .quiz-main-btn:hover {
+        border-color: #22c55e;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+      }
+
+      .audio-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      .quiz-btn {
+        min-width: 80px;
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.95);
+        color: #e5e7eb;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .quiz-btn:hover:not(:disabled) {
+        border-color: #06b6d4;
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+      }
+
+      .quiz-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      .quiz-feedback {
+        margin-top: 0.9rem;
+        font-size: 0.95rem;
+        color: #cbd5f5;
+      }
+
+      .quiz-stats {
+        margin-top: 0.4rem;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .dot-separator {
+        opacity: 0.6;
+      }
+
+      .reset-btn {
+        margin-top: 1rem;
+        padding: 0.5rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reset-btn:hover {
+        border-color: #f97316;
+        box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,367 @@
+---
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "AI vs Human Images";
+const description =
+  "Side-by-side comparison of AI-generated and human-made digital landscapes.";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="bg-orb"></div>
+    <Header />
+
+    <main>
+      <!-- ===========================
+           INTRO
+      ============================ -->
+      <section>
+        <h1>{title}</h1>
+
+        <p class="lead">
+          Can anyone tell AI art from human art? Modern text-to-image tools turn a line of
+          text into a polished picture in seconds. In test after test, viewers fail to spot
+          which image came from code and which came from a person — when the label is
+          hidden, most guess that the AI picture is human.
+        </p>
+
+        <p>
+          Once the label appears, the reaction flips. Tell viewers that a human pressed the
+          brush or the shutter and they rate the piece higher for feeling, novelty, and
+          depth. That shows that creativity is not only what the eye sees — it is also the
+          belief that a person stood behind it.
+        </p>
+      </section>
+
+      <!-- ===========================
+           HOW IT WORKS
+      ============================ -->
+      <section>
+        <h2>Try It Yourself</h2>
+
+        <p>
+          This mini quiz lets you test how easy — or hard — it is to separate AI-generated
+          landscapes from human-made digital art.
+        </p>
+
+        <p>
+          You will see up to <strong>5 images</strong>, a mix of AI and human work. For each
+          one:
+        </p>
+
+        <ul>
+          <li>Look at the image on screen.</li>
+          <li>Decide whether you think it is <strong>AI</strong> or <strong>Human</strong>.</li>
+          <li>Your score and progress will update after each guess.</li>
+        </ul>
+
+        <div class="image-quiz">
+          <img
+            id="quiz-image"
+            class="quiz-img"
+            src=""
+            alt="Artwork for AI vs human image quiz"
+          />
+
+          <div class="image-buttons">
+            <button id="btn-ai" class="quiz-btn" type="button">AI</button>
+            <button id="btn-human" class="quiz-btn" type="button">Human</button>
+          </div>
+
+          <p id="feedback" class="quiz-feedback"></p>
+
+          <p class="quiz-stats">
+            <span id="score">0 / 0</span>
+            <span class="dot-separator">·</span>
+            <span id="progress">0 / 5</span>
+          </p>
+
+          <button id="reset-btn" class="reset-btn" type="button" hidden>
+            Reset quiz
+          </button>
+        </div>
+
+        <div class="highlight">
+          As with music, the interesting part is not just whether you guess correctly, but
+          how the image feels <strong>before</strong> and <strong>after</strong> you know the
+          source.
+        </div>
+      </section>
+
+      <!-- ===========================
+           WHAT TO NOTICE
+      ============================ -->
+      <section>
+        <h2>What to Look For</h2>
+
+        <ul>
+          <li>
+            Whether AI images repeat certain <strong>lighting</strong>, <strong>color</strong>, or
+            <strong>composition</strong> patterns.
+          </li>
+          <li>
+            If human-made pieces feel more <strong>intentional</strong> or tell a clearer story.
+          </li>
+          <li>
+            Small details like <strong>texture</strong>, <strong>atmosphere</strong>, or
+            <strong>imperfections</strong> that might reveal the source.
+          </li>
+        </ul>
+
+        <div class="final-note">
+          <p>
+            As AI becomes more common in visual culture, these differences may become harder
+            to spot. That makes questions about <strong>credit</strong>,
+            <strong>authenticity</strong>, and <strong>transparency</strong> even more
+            important.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <!-- ===========================
+         QUIZ LOGIC (CLIENT SIDE)
+         =========================== -->
+    <script>
+      // @ts-nocheck
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const images = [
+          { src: "/images/ai/ai1.webp", isAI: true },
+          { src: "/images/ai/ai2.webp", isAI: true },
+          { src: "/images/ai/ai3.webp", isAI: true },
+          { src: "/images/ai/ai4.webp", isAI: true },
+          { src: "/images/ai/ai5.webp", isAI: true },
+          { src: "/images/ai/ai6.webp", isAI: true },
+          { src: "/images/ai/ai7.webp", isAI: true },
+          { src: "/images/ai/ai8.webp", isAI: true },
+
+          { src: "/images/human/human1.jpg", isAI: false },
+          { src: "/images/human/human2.jpg", isAI: false },
+          { src: "/images/human/human3.jpg", isAI: false },
+          { src: "/images/human/human4.jpg", isAI: false },
+          { src: "/images/human/human5.jpg", isAI: false },
+          { src: "/images/human/human6.jpg", isAI: false },
+          { src: "/images/human/human7.jpg", isAI: false },
+          { src: "/images/human/human8.jpg", isAI: false },
+          { src: "/images/human/human9.jpg", isAI: false },
+          { src: "/images/human/human10.jpg", isAI: false },
+          { src: "/images/human/human11.jpg", isAI: false },
+          { src: "/images/human/human12.jpg", isAI: false }
+        ];
+
+        const totalToShow = Math.min(10, images.length);
+
+        let currentIndex = null;
+        let seen = new Set();
+        let correct = 0;
+        let total = 0;
+
+        const imgEl = document.getElementById("quiz-image");
+        const feedbackEl = document.getElementById("feedback");
+        const scoreEl = document.getElementById("score");
+        const progressEl = document.getElementById("progress");
+        const btnAI = document.getElementById("btn-ai");
+        const btnHuman = document.getElementById("btn-human");
+        const resetBtn = document.getElementById("reset-btn");
+
+        if (
+          !imgEl ||
+          !feedbackEl ||
+          !scoreEl ||
+          !progressEl ||
+          !btnAI ||
+          !btnHuman ||
+          !resetBtn
+        ) {
+          return;
+        }
+
+        function disableChoiceButtons() {
+          btnAI.disabled = true;
+          btnHuman.disabled = true;
+        }
+
+        function enableChoiceButtons() {
+          btnAI.disabled = false;
+          btnHuman.disabled = false;
+        }
+
+        function pickNextImage() {
+          if (seen.size >= totalToShow) {
+            feedbackEl.textContent = "You’ve seen all images for this quiz.";
+            feedbackEl.style.color = "#e5e7eb";
+            disableChoiceButtons();
+            resetBtn.hidden = false;
+            progressEl.textContent = `${totalToShow} / ${totalToShow}`;
+            return;
+          }
+
+          let idx;
+          do {
+            idx = Math.floor(Math.random() * images.length);
+          } while (seen.has(idx) && seen.size < images.length);
+
+          seen.add(idx);
+          currentIndex = idx;
+
+          const chosen = images[idx];
+          imgEl.src = chosen.src;
+          imgEl.alt = "Artwork used in AI vs human image quiz";
+
+          feedbackEl.textContent = "Look closely, then guess: AI or Human?";
+          feedbackEl.style.color = "#cbd5f5";
+          progressEl.textContent = `${seen.size} / ${totalToShow}`;
+
+          imgEl.style.opacity = "0";
+          requestAnimationFrame(() => {
+            imgEl.style.transition = "opacity 0.25s ease-out";
+            imgEl.style.opacity = "1";
+          });
+
+          enableChoiceButtons();
+        }
+
+        function makeGuess(choiceIsAI) {
+          if (currentIndex === null) return;
+
+          const actualIsAI = images[currentIndex].isAI;
+          total++;
+
+          if (actualIsAI === choiceIsAI) {
+            correct++;
+            feedbackEl.textContent = actualIsAI
+              ? "Correct — this image was generated by AI."
+              : "Correct — this image was created by a human.";
+            feedbackEl.style.color = "#22c55e";
+          } else {
+            feedbackEl.textContent = actualIsAI
+              ? "Not quite — this one was AI-generated."
+              : "Not quite — this one was human-made.";
+            feedbackEl.style.color = "#f97316";
+          }
+
+          scoreEl.textContent = `${correct} / ${total}`;
+          disableChoiceButtons();
+
+          setTimeout(pickNextImage, 900);
+        }
+
+        btnAI.addEventListener("click", () => makeGuess(true));
+        btnHuman.addEventListener("click", () => makeGuess(false));
+
+        resetBtn.addEventListener("click", () => {
+          seen.clear();
+          correct = 0;
+          total = 0;
+          currentIndex = null;
+
+          scoreEl.textContent = "0 / 0";
+          progressEl.textContent = `0 / ${totalToShow}`;
+          feedbackEl.textContent = "";
+          feedbackEl.style.color = "#cbd5f5";
+          resetBtn.hidden = true;
+
+          pickNextImage();
+        });
+
+        // Initial state
+        progressEl.textContent = `0 / ${totalToShow}`;
+        disableChoiceButtons();
+        pickNextImage();
+      });
+    </script>
+
+    <style>
+      .image-quiz {
+        margin-top: 1.75rem;
+        text-align: center;
+      }
+
+      .quiz-img {
+        width: 100%;
+        max-width: 720px;
+        height: 420px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        margin-bottom: 1rem;
+      }
+
+      .image-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .quiz-btn {
+        min-width: 80px;
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.95);
+        color: #e5e7eb;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .quiz-btn:hover:not(:disabled) {
+        border-color: #06b6d4;
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+      }
+
+      .quiz-btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      .quiz-feedback {
+        margin-top: 0.9rem;
+        font-size: 0.95rem;
+        color: #cbd5f5;
+      }
+
+      .quiz-stats {
+        margin-top: 0.4rem;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .dot-separator {
+        opacity: 0.6;
+      }
+
+      .reset-btn {
+        margin-top: 1rem;
+        padding: 0.5rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reset-btn:hover {
+        border-color: #f97316;
+        box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+      }
+    </style>
+  </body>
+</html>

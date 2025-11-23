@@ -1,0 +1,83 @@
+---
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Sources";
+const description = "References and academic articles used in this project.";
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="bg-orb"></div>
+    <Header />
+
+    <main>
+      <section>
+        <h1>{title}</h1>
+        <p class="lead">
+          Below are the main academic sources used throughout this project. All links lead directly
+          to the published papers or official archives.
+        </p>
+      </section>
+
+      <section>
+        <h2>Academic References</h2>
+
+        <ul>
+          <li>
+            Lee, Y. K., Park, Y.-H., & Hahn, S. (2023). 
+            <strong>A Portrait of Emotion: Empowering Self-Expression through AI-Generated Art.</strong>
+            <br />
+            <a href="https://arxiv.org/abs/2304.13324" target="_blank">
+              https://arxiv.org/abs/2304.13324
+            </a>
+          </li>
+
+          <li>
+            Oksanen, A., Cvetkovic, A., Akin, N., Latikka, R., Bergdahl, J., Chen, Y., & N, S. (2023).
+            <strong>Artificial Intelligence in Fine Arts: A Systematic Review of Empirical Research.</strong>
+            <br />
+            <a href="https://www.sciencedirect.com/science/article/pii/S294988212300004X" target="_blank">
+              https://www.sciencedirect.com/science/article/pii/S294988212300004X
+            </a>
+          </li>
+
+          <li>
+            Oppenlaender, J. (2022).
+            <strong>The Creativity of Text-to-Image Generation.</strong>
+            <br />
+            <a href="https://dl.acm.org/doi/abs/10.1145/3569219.3569352" target="_blank">
+              https://dl.acm.org/doi/abs/10.1145/3569219.3569352
+            </a>
+          </li>
+
+          <li>
+            O’Toole, K., & Horvát, E.-Á. (2024).
+            <strong>Extending Human Creativity with AI.</strong>
+            <br />
+            <a href="https://www.sciencedirect.com/science/article/pii/S2713374524000062" target="_blank">
+              https://www.sciencedirect.com/science/article/pii/S2713374524000062
+            </a>
+          </li>
+
+          <li>
+            Zhou, E., & Lee, D. (2024).
+            <strong>Generative Artificial Intelligence, Human Creativity, and Art.</strong>
+            <br />
+            <a href="https://academic.oup.com/pnasnexus/article/3/3/pgae052/7618478" target="_blank">
+              https://academic.oup.com/pnasnexus/article/3/3/pgae052/7618478
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

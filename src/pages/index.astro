@@ -1,49 +1,180 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "The Impact of AI on Creativity, Art, and Human Expression";
+const description =
+  "A digital humanities project exploring how AI is changing creativity, from visual art and music to ethics and human expression.";
 ---
 
-<!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div class="bg-orb"></div>
+    <Header />
+    <main>
+      <!-- HERO / INTRO -->
+      <section class="hero-section">
+        <h1>{title}</h1>
+
+        <p class="lead">
+          In the past, artificial intelligence existed only in films—smart machines, digital
+          helpers, and computers that learned like people. Today, AI sits inside every corner
+          of daily life, and one of the clearest places it changes is <strong>creativity</strong>.
+          Machines now produce stories, music, and pictures that once demanded a human mind.
+        </p>
+
+        <p>
+          This site explores how AI touches <strong>human expression</strong>, creativity, and
+          the arts. The goal is to see what shifts when machines turn into
+          <em>“makers”</em>, not to list technical details. Does AI raise the quality of art?
+          Does it cheapen it? Does it add excitement? Does it drain meaning? Because AI does
+          all of those at once, no single answer fits.
+        </p>
+      </section>
+
+      <!-- HOW AI SUPPORTS CREATIVITY -->
+      <section>
+        <h2>How AI Supports Creativity</h2>
+
+        <p>
+          Evidence shows that, instead of pushing people out, AI can
+          <strong>strengthen their work</strong>. One large project studied more than
+          <strong>4,000,000 images</strong> from <strong>50,000 artists</strong>
+          using text-to-image tools like <span class="tech-term">Midjourney</span>,
+          <span class="tech-term">DALL·E</span>, and
+          <span class="tech-term">Stable Diffusion</span>. The numbers were striking:
+        </p>
+
+        <ul>
+          <li>Creative output rose by <strong>25%</strong>.</li>
+          <li>
+            The number of likes and favorites per view climbed by
+            <strong>50%</strong>.
+          </li>
+          <li>More recognition was awarded—new artists gained exposure.</li>
+        </ul>
+
+        <p>
+          In short, AI helps people create a larger body of work, more frequently, and often
+          at a higher standard.
+        </p>
+      </section>
+
+      <!-- CAN PEOPLE SPOT THE SOURCE? -->
+      <section>
+        <h2>Can People Spot the Source?</h2>
+
+        <p>
+          Tests reveal that most viewers fail to tell whether a piece of art came from a
+          person or from software. In multiple trials:
+        </p>
+
+        <ul>
+          <li><strong>75%</strong> of viewers thought AI art was human-made.</li>
+          <li>
+            When the origin was revealed, <strong>human</strong> work received higher value.
+          </li>
+        </ul>
+
+        <p>
+          This points to a simple fact: we judge art not only by appearance but also by the
+          <strong>identity and motive</strong> of the maker. Human creation carries emotion,
+          effort, and personal story. AI can copy a style—yet it cannot state
+          <em>why</em> the work matters.
+        </p>
+      </section>
+
+      <!-- AI IN ART SPLITS OPINION -->
+      <section>
+        <h2>AI in Art Splits Opinion</h2>
+
+        <div class="perspective-grid">
+          <div class="perspective-card tool">
+            <div class="perspective-header">
+              <span class="perspective-icon">🛠️</span>
+              <h3>AI as a Tool</h3>
+            </div>
+            <p>
+              Helps artists break through creative blocks, test ideas quickly, and explore
+              directions they might never reach alone.
+            </p>
+          </div>
+
+          <div class="perspective-card replacement">
+            <div class="perspective-header">
+              <span class="perspective-icon">⚠️</span>
+              <h3>AI as a Replacement</h3>
+            </div>
+            <p>
+              Raises concerns about whether the result still feels human, whether it counts
+              as original, and whether living artists will still find work.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Surveys show that most students and practicing creators plan to rely on AI soon—yet
+          they voice the same fears: <strong>stolen ideas</strong>, <strong>fake facts</strong>,
+          and work being passed off as original when it is not. New quarrels flare up daily
+          about who owns an image, who deserves credit, and where the border between
+          <strong>help</strong> and <strong>theft</strong> lies.
+        </p>
+      </section>
+
+      <!-- WHY THIS MATTERS -->
+      <section>
+        <h2>Why Any of This Matters</h2>
+
+        <p>
+          Creating is not just a hobby—it is part of being human. Through art, people express
+          identity, pass on stories, and let emotions surface. If AI starts to fill culture—
+          songs, stories, pictures, headlines—what happens to the worth of
+          <strong>human imagination</strong>?
+        </p>
+
+        <div class="big-question">
+          Do we lose something, gain something, or both as AI becomes part of how culture is
+          made?
+        </div>
+
+        <p>
+          This project does not try to give a single answer. Instead, it breaks the topic
+          into parts you can explore:
+        </p>
+
+        <div class="explore-grid">
+          <a href="/comparison" class="explore-card">
+            <span class="explore-icon">🖼️</span>
+            <h4>Images</h4>
+            <p>Compare AI-generated and human-made digital landscapes.</p>
+          </a>
+
+          <a href="/music" class="explore-card">
+            <span class="explore-icon">🎵</span>
+            <h4>Music</h4>
+            <p>See how AI shows up in music and how listeners respond.</p>
+          </a>
+
+          <a href="/ethics" class="explore-card">
+            <span class="explore-icon">⚖️</span>
+            <h4>Ethics &amp; Future</h4>
+            <p>Look at bias, authenticity, and paths for human–AI collaboration.</p>
+          </a>
+
+          <a href="/sources" class="explore-card">
+            <span class="explore-icon">📚</span>
+            <h4>Sources</h4>
+            <p>Explore the research, articles, and papers behind this project.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
