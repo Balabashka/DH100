@@ -5,15 +5,15 @@ How AI Supports Creativity
 Evidence shows that, instead of pushing people out, AI can strengthen their work.
 One large project studied more than four million images from fifty thousand artists using text-to-image tools like Midjourney, DALL·E, and Stable Diffusion.
 The numbers were striking:
-•	Creative output rose by twenty-five percent.
-•	The number of likes and favorites per view climbed by fifty percent.
-•	More recognition was awarded—new artists gained exposure.
+Creative output rose by twenty-five percent.
+The number of likes and favorites per view climbed by fifty percent.
+More recognition was awarded—new artists gained exposure.
 In short, AI helps people create a larger body of work, more frequently, and often at a higher standard.
 Can People Spot the Source?
 Tests reveal that most viewers fail to tell whether a piece of art came from a person or from software.
 In multiple trials:
-•	Seventy-five percent of viewers thought AI art was human-made.
-•	When the origin was revealed, human work received higher value.
+Seventy-five percent of viewers thought AI art was human-made.
+When the origin was revealed, human work received higher value.
 This points to a simple fact:
 We judge art not only by appearance but also by the identity and motive of the maker.
 Human creation carries emotion, effort, and personal story. AI can copy a style—yet it cannot state why the work matters.
@@ -40,9 +40,9 @@ AI vs Human music comparison Page
 Can AI write music? 
 AI does not stop at pictures - it writes lyrics, scores backing tracks and even copies the voice of a star. The software studies thousands of songs, notes the patterns or spits out new files that sound right yet carry no direct copy. 
 Plain uses
-- Fast demo tracks 
-- Royalty-free background for games or clips 
-- A first step for users who lack the skill to play an instrument 
+Fast demo tracks 
+Royalty-free background for games or clips 
+A first step for users who lack the skill to play an instrument 
 The twist repeats the pattern seen with images. Once listeners learn that code wrote the tune, they tilt back toward human work. They call the AI track flat, hollow or lacking soul. Tiny faults - loops that overstay, chords that drift, no clear story - tip them off that no human heart guided the hand.
 
 Ethics + Future solutions page 
